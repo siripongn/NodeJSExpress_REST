@@ -1,9 +1,8 @@
 var Express = require('express')();
 var users = require('./users');
 var bodyParser = require('body-parser');
-// var MySQL = require('mysql');
+// var MySQL2 = require('mysql2');
 // var CORS = require('cors');
-
 
 ///// port 8888 
 var port = process.env.PORT || 8888;
@@ -34,7 +33,7 @@ Express.post('/newuser', function (req, res) {
 });
 
 
-// var con = MySQL.createConnection({
+// var con = MySQL2.createConnection({
 //     host: "localhost",
 //     user: "myuser",
 //     password: "test#pass"
