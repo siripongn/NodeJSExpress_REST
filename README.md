@@ -1,6 +1,7 @@
 "# NodeJSExpress_REST" 
 
 npm init
+npm install -g nodemon
 npm install express --save
 
 node index.js
@@ -22,3 +23,8 @@ app.use(bodyParser.urlencoded({
 
 POST
 localhost:8888/newuser
+
+
+npm install mysql2 --save
+
+npm install cors --save
