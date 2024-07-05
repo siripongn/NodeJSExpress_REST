@@ -1,0 +1,6 @@
+POST http://localhost:8888/user
+content-type: application/json
+{
+        "name": "Testing",
+        "position": "test"
+}
