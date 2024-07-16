@@ -7,10 +7,10 @@ npm install express --save
 node index.js
 
 GET
-localhost:8888
-localhost:8888/index
-localhost:8888/user
-localhost:8888/user/3
+localhost:8080
+localhost:8080/index
+localhost:8080/user
+localhost:8080/user/3
 
 npm install body-parser --save
 var bodyParser = require('body-parser');
@@ -28,6 +28,7 @@ docker pull mysql:latest
 docker run --name test-mysql -e MYSQL_ROOT_PASSWORD=mysql#pass -p 3306:3306 -d mysql:latest
 docker exec -it test-mysql bash
 mysql -u root -p
+
 CREATE DATABASE todos;
 CREATE TABLE todolist(id int NOT NULL AUTO_INCREMENT,
 name varchar(50) NOT NULL, 
@@ -89,4 +90,4 @@ npm install cors --save
 
 git add .
 git commit -m "rest commit"
-git branch -M main
+git push -u origin main

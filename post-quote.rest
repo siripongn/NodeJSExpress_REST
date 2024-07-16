@@ -1,6 +1,0 @@
-POST http://localhost:8888/quote
-content-type: application/json
-{
-        "name": "Testing",
-        "position": "test"
-}

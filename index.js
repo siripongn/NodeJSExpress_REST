@@ -1,36 +1,33 @@
 var Express = require('express')();
-var usernames = require('./users');
+// var usernames = require('./users');
 var bodyParser = require('body-parser');
 var MySQL2 = require('mysql2');
 // var CORS = require('cors');
 
 ///// port 8888 
-var port = process.env.PORT || 8888;
+var port = process.env.PORT || 8080;
 
 /////Routing
 Express.get('/', function (req, res) {
     res.send('<h1>Hello Node.js</h1>');
 });
-Express.get('/index', function (req, res) {
-    res.send('<h1>This is index page</h1>');
-});
-Express.get('/username', function (req, res) {
-    res.json(usernames.findAll());
-});
-Express.get('/username/:id', function (req, res) {
-    var id = req.params.id;
-    res.json(usernames.findById(id));
-});
+// Express.get('/username', function (req, res) {
+//     res.json(usernames.findAll());
+// });
+// Express.get('/username/:id', function (req, res) {
+//     var id = req.params.id;
+//     res.json(usernames.findById(id));
+// });
 
 // parse Expresslication/json
 Express.use(bodyParser.json());
 Express.use(bodyParser.urlencoded({
     extended: true
 }));
-Express.post('/newuser', function (req, res) {
-    var json = req.body;
-    res.send('Add new ' + json.name + ' Completed!');
-});
+// Express.post('/newuser', function (req, res) {
+//     var json = req.body;
+//     res.send('Add new ' + json.name + ' Completed!');
+// });
 
 var dbConn = MySQL2.createConnection({
     host: "localhost",
@@ -39,7 +36,7 @@ var dbConn = MySQL2.createConnection({
     port: 3306,
     waitForConnections: true,
     debug: false,
-    database: "todos"
+    database: "test"
 });
 dbConn.connect(function(err) {
     if (err) throw err;
@@ -47,7 +44,7 @@ dbConn.connect(function(err) {
 });
 
 // Retrieve all quote
-Express.get('/quotes', function (req, res) {
+Express.get('/quote', function (req, res) {
     dbConn.query('SELECT * FROM quote', function (error, results, fields) {
         if (error) throw error;
         return res.send({ error: false, data: results, message: 'quote list.' });
@@ -112,70 +109,70 @@ Express.delete('/quote', function (req, res) {
 }); 
 
 
-// Retrieve all users 
-Express.get('/users', function (req, res) {
-    dbConn.query('SELECT * FROM users', function (error, results, fields) {
-        if (error) throw error;
-        return res.send({ error: false, data: results, message: 'users list.' });
-    });
-});
-// Retrieve user with id 
-Express.get('/user/:id', function (req, res) {
+// // Retrieve all users 
+// Express.get('/users', function (req, res) {
+//     dbConn.query('SELECT * FROM users', function (error, results, fields) {
+//         if (error) throw error;
+//         return res.send({ error: false, data: results, message: 'users list.' });
+//     });
+// });
+// // Retrieve user with id 
+// Express.get('/user/:id', function (req, res) {
  
-    let user_id = req.params.id;
+//     let user_id = req.params.id;
  
-    if (!user_id) {
-        return res.status(400).send({ error: true, message: 'Please provide user_id' });
-    }
+//     if (!user_id) {
+//         return res.status(400).send({ error: true, message: 'Please provide user_id' });
+//     }
  
-    dbConn.query('SELECT * FROM users where id=?', user_id, function (error, results, fields) {
-        if (error) throw error;
-        return res.send({ error: false, data: results[0], message: 'users list.' });
-    });
+//     dbConn.query('SELECT * FROM users where id=?', user_id, function (error, results, fields) {
+//         if (error) throw error;
+//         return res.send({ error: false, data: results[0], message: 'users list.' });
+//     });
  
-});
-// Add a new user  
-Express.post('/user', function (req, res) {
+// });
+// // Add a new user  
+// Express.post('/user', function (req, res) {
  
-    let user = req.body.user;
+//     let user = req.body.user;
  
-    if (!user) {
-        return res.status(400).send({ error:true, message: 'Please provide user' });
-    }
+//     if (!user) {
+//         return res.status(400).send({ error:true, message: 'Please provide user' });
+//     }
  
-    dbConn.query("INSERT INTO users SET ? ", { user: user }, function (error, results, fields) {
-        if (error) throw error;
-        return res.send({ error: false, data: results, message: 'New user has been created successfully.' });
-    });
-});
-//  Update user with id
-Express.put('/user', function (req, res) {
+//     dbConn.query("INSERT INTO users SET ? ", { user: user }, function (error, results, fields) {
+//         if (error) throw error;
+//         return res.send({ error: false, data: results, message: 'New user has been created successfully.' });
+//     });
+// });
+// //  Update user with id
+// Express.put('/user', function (req, res) {
  
-    let user_id = req.body.user_id;
-    let user = req.body.user;
+//     let user_id = req.body.user_id;
+//     let user = req.body.user;
  
-    if (!user_id || !user) {
-        return res.status(400).send({ error: user, message: 'Please provide user and user_id' });
-    }
+//     if (!user_id || !user) {
+//         return res.status(400).send({ error: user, message: 'Please provide user and user_id' });
+//     }
  
-    dbConn.query("UPDATE users SET user = ? WHERE id = ?", [user, user_id], function (error, results, fields) {
-        if (error) throw error;
-        return res.send({ error: false, data: results, message: 'user has been updated successfully.' });
-    });
-});
-//  Delete user
-Express.delete('/user', function (req, res) {
+//     dbConn.query("UPDATE users SET user = ? WHERE id = ?", [user, user_id], function (error, results, fields) {
+//         if (error) throw error;
+//         return res.send({ error: false, data: results, message: 'user has been updated successfully.' });
+//     });
+// });
+// //  Delete user
+// Express.delete('/user', function (req, res) {
  
-    let user_id = req.body.user_id;
+//     let user_id = req.body.user_id;
  
-    if (!user_id) {
-        return res.status(400).send({ error: true, message: 'Please provide user_id' });
-    }
-    dbConn.query('DELETE FROM users WHERE id = ?', [user_id], function (error, results, fields) {
-        if (error) throw error;
-        return res.send({ error: false, data: results, message: 'User has been updated successfully.' });
-    });
-}); 
+//     if (!user_id) {
+//         return res.status(400).send({ error: true, message: 'Please provide user_id' });
+//     }
+//     dbConn.query('DELETE FROM users WHERE id = ?', [user_id], function (error, results, fields) {
+//         if (error) throw error;
+//         return res.send({ error: false, data: results, message: 'User has been updated successfully.' });
+//     });
+// }); 
 // Express.use(cors())
 // Express.use(express.json())
 // Express.get('/usernames', function (req, res, next) {
@@ -228,7 +225,7 @@ Express.delete('/user', function (req, res) {
 //     );
 // })
 
-/////Run server port8888
+/////Run server port8080
 Express.listen(port, function() {
     console.log('Starting node.js on port ' + port);
 });
